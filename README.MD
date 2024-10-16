@@ -40,3 +40,32 @@ Note:
     
 ## Swagger : Use to validate API end points 
 http://localhost:8080/order-ecommerce/swagger-ui/index.html
+
+## Basic understanding of the flow
+![img.png](Egen_Ecommerce.jpg)
+
+## Improvements and Corrections in branch
+- Added a flow chart with the understanding of the flow
+- Enabled AspectJ auto proxy.
+- Created a new annotation `Loggable` to automate some logging acroos service, like API calls, service calls etc.
+- Implemented the Aspect in `LoggingAspect`.
+- Across the service modified injections that need not be private to controll access
+- Modified service layer to have interface segregation.
+  - The `ProductService` and `OrderService` are now interfaces
+  - There are new implementations `ProductServicePgImpl` and `OrderServicePgImpl` that basically now are postgres specific implementations.
+  - Having this segragation allows service to be scalable across multiple data sources loading site specific implementations using configurations.
+- Modified controllers 
+  - To include `orders` and `products` at the top level resource rather than at functions.
+    - No need for these at functions level
+  - Returned DTOs from service layer to abstract entities from Data access layer
+  - Across all APIs add operations summary and description for swagger
+  - Added new APIs to:
+    - Get list of all products
+    - Update product information
+    - Get list of all orders
+  - Inside repository added capability for searching product matching input title string.
+- Added controller advice, to handle error responses from APIs.
+  - This is not yet scaled to all possible scenarios and code flows.
+- Apart from all above, removed lombok `NonNull` annotations as not needed in kotlin when declaration is already non nullable.
+- Added new DTOs for entities and made data transfers across service consistent using DTOs (Not exposing entire entities out)
+

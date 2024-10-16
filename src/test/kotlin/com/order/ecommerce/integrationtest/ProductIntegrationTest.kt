@@ -22,17 +22,17 @@ import org.springframework.transaction.annotation.Transactional
 internal class ProductIntegrationTest {
 
     @Autowired
-    var mockMvc: MockMvc? = null
+    lateinit var mockMvc: MockMvc
 
     @Test
     @SneakyThrows
     fun testGetProduct() {
-        mockMvc?.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.get("/api/v1/products/106")
         )
-            ?.andExpect(status().`is`(200))
-            ?.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            ?.andExpect(
+            .andExpect(status().`is`(200))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(
                 content().json(
                     """
                     {
@@ -46,7 +46,18 @@ internal class ProductIntegrationTest {
                 """.trimIndent()
                 )
             )
-            ?.andReturn()!!
+            .andReturn()
+    }
+
+    @Test
+    @SneakyThrows
+    fun testCreateProduct() {
+        mockMvc.perform(
+            MockMvcRequestBuilders
+                .post("/api/v1/products")
+                .contentType("application/json")
+                .content("{\"productId\": \"121\",\"sku\": \"1001\",\"title\": \"protein\",\"description\": \"Whey\",\"price\": -1,\"createdAt\": \"2023-03-19\"}")
+        ).andExpect(status().`is`(400))
     }
 
 }

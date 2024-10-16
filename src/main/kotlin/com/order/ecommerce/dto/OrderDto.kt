@@ -1,22 +1,21 @@
 package com.order.ecommerce.dto
 
-import lombok.NonNull
-
+// @NotNull not required as kotlin is already imposing the same.
 data class OrderDto(
 
-    @NonNull val customerId: String,
-    @NonNull val subTotal: Double,
-    @NonNull val totalAmt: Double,
-    @NonNull val tax: Double,
-    @NonNull val shippingCharges: Double,
-    @NonNull val title: String,
-    @NonNull val shippingMode: String,
+    val customerId: String,
+    val subTotal: Double,
+    val totalAmt: Double,
+    val tax: Double,
+    val shippingCharges: Double,
+    val title: String,
+    val shippingMode: String,
 
-    @NonNull var amount: Double,
-    @NonNull val paymentMode: String,
+    var amount: Double,
+    val paymentMode: String,
 
-    @NonNull val billingAddress: AddressDto,
-    @NonNull val shippingAddress: AddressDto,
+    val billingAddress: AddressDto,
+    val shippingAddress: AddressDto,
 
-    @NonNull val orderItems: List<OrderItemDto>
+    val orderItems: List<OrderItemDto>
 )

@@ -1,5 +1,6 @@
 package com.order.ecommerce.model
 
+import com.order.ecommerce.dto.OrderDto
 import lombok.Data
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -45,15 +46,31 @@ class Order(
     @JoinColumn(referencedColumnName = "payment_id", name = "payment_id")
     open var payment: Payment,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(referencedColumnName = "address_id", name = "billing_address_id")
     open var billingAddress: Address,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(referencedColumnName = "address_id", name = "shipping_address_id")
     open var shippingAddress: Address,
 
     @OneToMany(targetEntity = OrderItem::class, fetch = FetchType.LAZY, mappedBy = "order")
     open var orderItems: MutableList<OrderItem>?
 
-) : Serializable
+) : Serializable {
+
+    fun toOrderDto(): OrderDto = OrderDto(
+        customerId = customerId,
+        subTotal = subTotal,
+        totalAmt = totalAmt,
+        tax = tax,
+        shippingCharges = shippingCharges,
+        title = title,
+        shippingMode = shippingMode,
+        amount = payment.getAmount(),
+        paymentMode = payment.getPaymentMode(),
+        billingAddress = billingAddress.toAddressDto(),
+        shippingAddress = shippingAddress.toAddressDto(),
+        orderItems = orderItems?.map { it.toOrderItemDto() }!!
+    )
+}

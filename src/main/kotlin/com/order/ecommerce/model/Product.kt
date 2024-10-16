@@ -1,5 +1,6 @@
 package com.order.ecommerce.model
 
+import com.order.ecommerce.dto.ProductDto
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.*
@@ -24,4 +25,16 @@ class Product(
     @OneToMany(targetEntity = OrderItem::class, fetch = FetchType.LAZY, mappedBy = "product")
     private var orderItems: List<OrderItem>?
 
-) : Serializable
+) : Serializable {
+
+    fun toProductDto() = ProductDto(
+        productId = productId,
+        sku = sku,
+        title = title,
+        description = description,
+        price = price,
+        createdAt = LocalDate.now(),
+        productOrders = orderItems?.map { it.toProductOrder() }.takeIf { it?.isNotEmpty() == true }
+    )
+
+}

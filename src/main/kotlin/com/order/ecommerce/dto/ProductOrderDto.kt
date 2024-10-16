@@ -1,6 +1,6 @@
 package com.order.ecommerce.dto
 
-data class OrderCreateResponse(
+data class ProductOrderDto(
     val orderId: String,
-    val orderStatus: String
+    val quantity: String
 )

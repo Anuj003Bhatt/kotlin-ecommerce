@@ -1,5 +1,7 @@
 package com.order.ecommerce.model
 
+import lombok.AccessLevel
+import lombok.Getter
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.*
@@ -30,4 +32,10 @@ class Payment(
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "payment")
     private var order: Order?
 
-) : Serializable
+) : Serializable {
+
+    fun getAmount(): Double = amount
+
+    fun getPaymentMode(): String = paymentMode
+
+}

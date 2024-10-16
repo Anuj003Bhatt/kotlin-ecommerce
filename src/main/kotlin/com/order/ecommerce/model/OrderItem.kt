@@ -1,5 +1,7 @@
 package com.order.ecommerce.model
 
+import com.order.ecommerce.dto.OrderItemDto
+import com.order.ecommerce.dto.ProductOrderDto
 import java.io.Serializable
 import javax.persistence.*
 
@@ -21,4 +23,14 @@ class OrderItem(
     @Column(name = "quantity", nullable = false)
     private var quantity: String
 
-) : Serializable
+) : Serializable {
+    fun toOrderItemDto(): OrderItemDto = OrderItemDto(
+        productId = product!!.productId,
+        quantity = quantity
+    )
+
+    fun toProductOrder(): ProductOrderDto = ProductOrderDto(
+        orderId = order!!.orderId,
+        quantity = quantity
+    )
+}

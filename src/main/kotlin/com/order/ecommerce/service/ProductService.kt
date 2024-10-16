@@ -2,39 +2,19 @@ package com.order.ecommerce.service
 
 import com.order.ecommerce.dto.ProductDto
 import com.order.ecommerce.model.Product
-import com.order.ecommerce.repository.ProductRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
-import java.time.LocalDate
 
-@Service
-class ProductService(val productRepository: ProductRepository) {
-
-    companion object {
-        val log: Logger = LoggerFactory.getLogger(ProductService::class.java)
-    }
-
-    fun createProduct(productDto: ProductDto): Product {
-        log.info("Creating Product with productId {}", productDto.productId)
-        return productRepository.save(productDto.toProductEntity())
-
-    }
-
-    fun getProduct(productId: String): Product {
-        log.info("Get Product by productId {}", productId)
-        return productRepository.findById(productId).orElseThrow()
-
-    }
-
-    fun ProductDto.toProductEntity() = Product(
-        productId = productId,
-        sku = sku,
-        title = title,
-        description = description,
-        price = price,
-        createdAt = LocalDate.now(),
-        orderItems = null
-    )
-
+/**
+ * This is to implement interface segregation.
+ * The controller does not need to know about the direct internal implementations but
+ * only the functionalities it exposes.
+ *
+ *
+ * This is an interface segregation so that the application can have extensibility across multiple data source.
+ * This can be very useful in large scale applications as well as where data migrations are required.
+ */
+interface ProductService {
+    fun createProduct(productDto: ProductDto): ProductDto
+    fun getProduct(productId: String): ProductDto
+    fun listProducts(): List<ProductDto>
+    fun listProductsByTitle(title: String): List<ProductDto>
 }
