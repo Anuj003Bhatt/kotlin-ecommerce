@@ -42,7 +42,7 @@ Note:
 http://localhost:8080/order-ecommerce/swagger-ui/index.html
 
 ## Basic understanding of the flow
-![img.png](Egen_Ecommerce.jpg)
+![img.png](UpdateByMe_Ecommerce.jpg)
 
 ## Improvements and Corrections in branch
 - Added a flow chart with the understanding of the flow
